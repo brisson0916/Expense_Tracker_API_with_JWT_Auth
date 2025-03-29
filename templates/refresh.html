@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Token Expired{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <h1 class="heading pt-3">Action Required!</h1>
+    <p> Please click "refresh" to verify your credentials. </p>
+</div>
+
+<div class="content pt-5">
+    <form action="{{ url_for('refresh') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <button type="submit" class="btn btn-primary mx-1">Refresh</button>
+    </form>
+</div>
+
+{% endblock %}

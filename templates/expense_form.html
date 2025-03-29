@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Expense{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    {% from "bootstrap5/form.html" import render_form %}
+
+    {% if edit_expense_form: %}
+    <h1 class="heading pt-3">Update Expense</h1>
+    <form method="POST" action="{{ url_for('edit_expense', expense_id=id) }}">
+
+        {{ edit_expense_form.csrf_token }}
+        {{render_form(edit_expense_form, novalidate=True, button_map={"submit": "primary"}) }}
+    </form>
+
+    {% else: %}
+
+    <h1 class="heading pt-3">Create New Expense</h1>
+
+    <form method="POST" action="{{url_for('add_expense')}}">
+
+        {{ add_expense_form.csrf_token }}
+        {{render_form(add_expense_form, novalidate=True, button_map={"submit": "primary"}) }}
+    </form>
+
+    {% endif %}
+
+</div>
+
+<div class="content pt-5">
+    <a href="{{url_for('dashboard')}}" class="btn btn-secondary">Return to Dashboard</a>
+</div>
+
+{% endblock %}

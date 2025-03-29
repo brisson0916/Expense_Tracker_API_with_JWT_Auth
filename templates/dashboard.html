@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Expenses Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="heading py-3">My Expenses</h1>
+    <p class="description">Keep Track of your spending!<br></p>
+
+<form method="POST" action="{{ url_for('dashboard') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <div class="form-row align-items-center mb-5">
+
+        <div class="col-auto d-flex align-items-center mb-3">
+
+            <label for="category" class="mr-2">Category:</label>
+            <select class="form-control mx-3 w-25" name="category" id="category">
+                <option value="">All</option>
+                {% for category in ExpenseCategory %}
+                    <!--    get enum string values from enum class    -->
+                    <!--    credit: https://stackoverflow.com/questions/24487405/getting-value-of-enum-on-string-conversion    -->
+                    <option value="{{category.value}}">{{category.value}}</option>
+                {% endfor %}
+            </select>
+
+            <label for="month" class="mr-2">Month:</label>
+            <select class="form-control mx-3 w-25" name="month" id="month">
+                <option value="">All</option>
+                {% for month in months %}
+                    <option value="{{ month[0] }}">{{ month[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="year" class="mr-2">Year:</label>
+            <select class="form-control mx-3 w-25" name="year" id="year">
+                <option value="">All</option>
+                {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn btn-primary">Filter</button>
+
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="flash text-danger">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+</form>
+
+<h1 class="heading content pb-3">Total Expenses: <a href=""> HKD {{total_expense}}</a> </h1>
+
+{% if show_graph: %}
+<div id='chart' class='chart content'></div>
+{% endif %}
+
+<div class="container text-center add">
+    <a href="{{url_for('add_expense')}}" class="btn btn-primary mb-5">Add Expense</a>
+</div>
+
+<h1 class="heading py-3">Expense History</h1>
+
+<hr class="my-4" />
+    {% for expense in all_expenses %}
+        <div>
+        <a href="{{url_for('edit_expense', expense_id=expense.id)}}">
+            <h2 class="post-meta">-HKD{{expense.amount}}</h2>
+        </a>
+        <h2><strong>{{expense.description}}</strong></h2>
+        <p class="post-meta">
+            <i>{{expense.category.value}}</i>
+            <!-- format date into readable format -->
+            on {{expense.expense_date.strftime("%d %B %Y")}}
+        </p>
+        <a class="btn btn-danger btn-sm float-right" href="{{url_for('delete_expense', expense_id=expense.id)}}">Delete Expense</a>
+        </div>
+        <hr class="my-4" />
+    {% endfor %}
+</div>
+
+<div class="container text-center add">
+    <a href="{{url_for('add_expense')}}" class="btn btn-primary mb-5">Add Expense</a>
+</div>
+{% endblock %}

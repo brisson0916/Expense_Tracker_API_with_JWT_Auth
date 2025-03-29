@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Expenses Tracker{% endblock %}
+
+{% block content %}
+
+<!--Home Page Template from https://getbootstrap.com/docs/5.3/examples/jumbotron/ -->
+<main>
+  <div class="container py-4">
+    <header class="pb-3 mb-4 border-bottom">
+      <a href="https://getbootstrap.com/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img"><title>Bootstrap</title><path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z" fill="currentColor"></path></svg>
+        <span class="fs-4">My Finances Web App</span>
+      </a>
+    </header>
+
+    <!--  Create white linear gradient on background photo to decrease opacity  -->
+    <!--  https://www.digitalocean.com/community/tutorials/how-to-change-a-css-background-images-opacity  -->
+    <div style="background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('../static/currency.jpg');
+                background-size: 100% auto; background-repeat: no-repeat; background-position: center; "
+         class="p-5 mb-4 bg-body-tertiary rounded-3">
+    <!--   Image Credit: Photo by Jason Leung on Unsplash https://unsplash.com/photos/10-and-one-10-us-dollar-bill-SAYzxuS1O3M?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash     -->
+      <div class="container-fluid py-5">
+        <h1 class="display-6 fw-bold">Track your Expenses</h1>
+        <p class="col-md-9 fs-6">Mark down and visualize your daily expenses.
+            It is simple and a great habit to do so.
+            See in which categories you are spending the most money in.
+            We sincerely and truly believe that you will be a master in managing your expenses and ultimately reach your financial goals.
+            Start right now: we promise that this will be the best decision you have made.
+        </p>
+        {% if request.cookies.get('access_token_cookie'): %}
+        <a href="{{url_for('dashboard')}}" class="btn btn-lg btn-primary mx-1 fw-bold">My Expenses</a>
+        {% else: %}
+        <a href="{{url_for('register')}}" class="btn btn-lg btn-primary mx-1 fw-bold">Sign me up!</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row align-items-md-stretch">
+      <div class="col-md-6">
+        <!--    Image Credit: https://unsplash.com/photos/matrix-movie-still-iar-afB0QQw    -->
+        <div style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../static/coding.jpg');
+                background-size: 100% auto; background-repeat: no-repeat; background-position: center; "
+             class="h-100 p-5 text-bg-dark rounded-3">
+          <h2>Ultra Secure</h2>
+          <p>A safe and convenient web app by implementing JWT (JSON Web Tokens).
+              In addition, an access token refreshing mechanism using refresh tokens prevents malicious agents from accessing your finance data.</p>
+          <a href="https://auth0.com/docs/secure/tokens/json-web-tokens" class="btn btn-outline-light">Learn More</a>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <!--    Image Credit: Photo by Lauren Mancke on Unsplash https://unsplash.com/photos/bunch-of-sliced-american-lemon-sil2Hx4iupI    -->
+        <div style="background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('../static/lemons.jpg');
+                background-size: 100% auto; background-repeat: no-repeat; background-position: center; "
+             class="h-100 p-5 bg-body-tertiary border rounded-3">
+          <h2>So Simple</h2>
+          <p>Enter the amount, category, and date for each expense.
+              Edit or delete the expense anytime, anywhere, anyhow.
+              View your expenses by category or by month/year.
+              Tracking your spending could never have been easier.
+          </p>
+          {% if request.cookies.get('access_token_cookie'): %}
+          <a href="{{url_for('dashboard')}}" class="btn btn-outline-secondary">Start Now!</a>
+          {% else: %}
+          <a href="{{url_for('login')}}" class="btn btn-outline-secondary">Start Now!</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
